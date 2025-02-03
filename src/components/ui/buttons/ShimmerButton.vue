@@ -10,9 +10,10 @@ interface ShimmerButtonProps {
   className?: string;
 }
 
+// default value
 const props = withDefaults(defineProps<ShimmerButtonProps>(), {
-  shimmerColor: "#ffffff",
-  shimmerSize: "0.05em",
+  shimmerColor: "#00E673",
+  shimmerSize: "0.07em",
   shimmerDuration: "3s",
   borderRadius: "100px",
   background: "rgba(0, 0, 0, 1)",
@@ -29,26 +30,9 @@ const buttonStyle = computed<CSSProperties>(() => ({
 }));
 
 const buttonClass = computed(() => [
-  "group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/10 px-6 py-3 text-white [background:var(--bg)] [border-radius:var(--radius)] dark:text-black",
+  "group relative z-0 flex cursor-pointer items-center justify-center overflow-hidden whitespace-nowrap border border-white/20 px-6 py-3 text-white hover:text-white [background:var(--bg)] [border-radius:var(--radius)] dark:text-black",
   "transform-gpu transition-transform duration-300 ease-in-out active:translate-y-px",
   props.className,
-]);
-
-const sparkContainerClass = computed(() => [
-  "-z-30 blur-[2px]",
-  "absolute inset-0 overflow-visible [container-type:size]",
-]);
-
-const highlightClass = computed(() => [
-  "insert-0 absolute size-full",
-  "rounded-2xl px-4 py-1.5 text-sm font-medium shadow-[inset_0_-8px_10px_#ffffff1f]",
-  "transform-gpu transition-all duration-300 ease-in-out",
-  "group-hover:shadow-[inset_0_-6px_10px_#ffffff3f]",
-  "group-active:shadow-[inset_0_-10px_10px_#ffffff3f]",
-]);
-
-const backdropClass = computed(() => [
-  "absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]",
 ]);
 </script>
 
@@ -60,7 +44,9 @@ const backdropClass = computed(() => [
     v-bind="$attrs"
   >
     <!-- spark container -->
-    <div :class="sparkContainerClass">
+    <div
+      class="absolute inset-0 -z-30 overflow-visible blur-[2px] [container-type:size]"
+    >
       <!-- spark -->
       <div
         class="animate-shimmer-slide absolute inset-0 h-[100cqh] [aspect-ratio:1] [border-radius:0] [mask:none]"
@@ -71,42 +57,17 @@ const backdropClass = computed(() => [
         />
       </div>
     </div>
-    <slot></slot>
+
+    <slot />
 
     <!-- Highlight -->
-    <div :class="highlightClass" />
+    <div
+      class="insert-0 absolute size-full transform-gpu rounded-2xl px-4 py-1.5 text-sm font-medium shadow-[inset_0_-8px_10px_#ffffff1f] transition-all duration-300 ease-in-out group-hover:shadow-[inset_0_-6px_10px_#ffffff3f] group-active:shadow-[inset_0_-10px_10px_#ffffff3f]"
+    />
 
     <!-- backdrop -->
-    <div :class="backdropClass" />
+    <div
+      class="absolute -z-20 [background:var(--bg)] [border-radius:var(--radius)] [inset:var(--cut)]"
+    />
   </button>
 </template>
-
-<style scoped>
-/* Define the shimmer slide animation */
-@keyframes shimmer-slide {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
-}
-
-.animate-shimmer-slide {
-  animation: shimmer-slide var(--speed) linear infinite;
-}
-
-/* Define the spin around animation */
-@keyframes spin-around {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.animate-spin-around {
-  animation: spin-around var(--speed) linear infinite;
-}
-</style>
