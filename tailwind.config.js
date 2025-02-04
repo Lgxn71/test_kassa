@@ -22,6 +22,9 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        "phone-395": "395px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -85,6 +88,7 @@ module.exports = {
       fontFamily: {
         sans: ["Mabry Pro", "sans-serif"],
       },
+
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

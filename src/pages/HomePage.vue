@@ -4,7 +4,7 @@ import ShimmerButton from "@/components/ui/buttons/ShimmerButton.vue";
 <template>
   <div className="flex bg-black items-center justify-center h-screen">
     <RouterLink to="/auth/sign-up">
-      <ShimmerButton>Чтобы зарегистрироваться в этом демо нажмите на кнопку</ShimmerButton>
+      <ShimmerButton>Чтобы продолжить нажмите кнопку</ShimmerButton>
     </RouterLink>
   </div>
 </template>
