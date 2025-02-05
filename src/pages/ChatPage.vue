@@ -213,7 +213,7 @@ const cancelRecording = () => {
 
     <!-- Chat messages -->
     <div
-      class="space-y-4 overflow-y-auto px-[15px] pt-[50px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
+      class="space-y-4 overflow-y-auto px-[15px] pb-[120px] pt-[50px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
     >
       <div
         v-for="(message, index) in messages"
@@ -309,7 +309,7 @@ const cancelRecording = () => {
     </div>
 
     <div
-      class="fixed bottom-[0px] left-0 right-0 mx-auto flex h-[40px] w-full max-w-[1480px] flex-row items-center justify-center gap-2 bg-white px-[15px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
+      class="fixed bottom-[0px] left-0 right-0 mx-auto flex h-[40px] w-full flex-row items-center justify-center gap-2 bg-white px-[15px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
     />
   </div>
 </template>
