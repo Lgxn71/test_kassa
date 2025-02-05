@@ -213,7 +213,7 @@ const cancelRecording = () => {
 
     <!-- Chat messages -->
     <div
-      class="space-y-4 px-[15px] pt-[50px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
+      class="space-y-4 overflow-y-auto px-[15px] pt-[50px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
     >
       <div
         v-for="(message, index) in messages"
@@ -250,7 +250,7 @@ const cancelRecording = () => {
 
     <!-- Message input and voice recording controls -->
     <div
-      class="absolute bottom-[40px] left-0 right-0 mx-auto flex w-full max-w-[1480px] flex-row items-center justify-center gap-2 px-[15px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
+      class="fixed bottom-[40px] left-0 right-0 mx-auto flex w-full max-w-[1480px] flex-row items-center justify-center gap-2 bg-white px-[15px] pt-[4px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
     >
       <!-- Text input when not recording -->
       <div
@@ -307,5 +307,9 @@ const cancelRecording = () => {
         <Arrow class="min-h-[22px] min-w-[22px] rotate-90" />
       </Button>
     </div>
+
+    <div
+      class="fixed bottom-[0px] left-0 right-0 mx-auto flex h-[40px] w-full max-w-[1480px] flex-row items-center justify-center gap-2 bg-white px-[15px] phone-395:px-[23px] lg:px-[40px] xl:px-[60px] 2xl:px-[80px]"
+    />
   </div>
 </template>
