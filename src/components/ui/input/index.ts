@@ -9,9 +9,11 @@ export const inputVariants = cva(
           "bg-background ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ",
         error:
           "border-[#e5345b] text-[#e5345b] focus-visible:ring-[#e5345b] ring-offset-[#e5345b]",
+        chat: "bg-[#F5F5F5] border-[0px] text-[14.5px] phone-400:text-[16.5px] lg:text-[19px]   placeholder:text-[#00000052]",
       },
       size: {
         default: "h-10 px-3 py-2",
+        chat: "h-5 px-0 py-0",
       },
     },
     defaultVariants: {
