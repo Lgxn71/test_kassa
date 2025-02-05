@@ -58,18 +58,10 @@ const onSubmit = handleSubmit(async (val) => {
     class="m-auto flex h-screen items-center justify-center lg:w-[90%] lg:grid-cols-2"
   >
     <div class="flex flex-row items-center rounded-lg lg:border">
-      <div class="hidden w-[50%] bg-muted lg:block lg:max-w-[705px] lg:flex-1">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
-      </div>
-
       <div
         class="lg:w-max-[450px] w-[100%] py-12 lg:max-w-[450px] lg:flex-1 lg:px-[28px]"
       >
-        <div class="phone-395:w-[100%] mx-auto grid w-[90%] gap-5">
+        <div class="mx-auto grid w-[90%] gap-5 phone-395:w-[100%]">
           <div class="text-center">
             <h1 class="text-3xl font-bold">Создать аккаунт</h1>
             <p class="text-balance text-muted-foreground">

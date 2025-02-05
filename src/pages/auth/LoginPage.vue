@@ -57,7 +57,7 @@ const onSubmit = handleSubmit(async (val) => {
       <div
         class="lg:w-max-[450px] w-[100%] py-12 lg:max-w-[450px] lg:flex-1 lg:px-[28px]"
       >
-        <div class="phone-395:w-[100%] mx-auto grid w-[90%] gap-5">
+        <div class="mx-auto grid w-[90%] gap-5 phone-395:w-[100%]">
           <div class="text-center">
             <h1 class="text-3xl font-bold">Войти в аккаунт</h1>
             <p class="text-balance text-muted-foreground">
@@ -123,6 +123,7 @@ const onSubmit = handleSubmit(async (val) => {
               Войти
             </Button>
           </form>
+
           <div class="mt-4 text-center text-sm">
             У вас нету аккаунта?
             <RouterLink to="/auth/sign-up" class="underline">
@@ -130,14 +131,6 @@ const onSubmit = handleSubmit(async (val) => {
             </RouterLink>
           </div>
         </div>
-      </div>
-
-      <div class="hidden w-[50%] bg-muted lg:block lg:max-w-[705px] lg:flex-1">
-        <img
-          src="/placeholder.svg"
-          alt="Image"
-          class="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
       </div>
     </div>
   </div>
