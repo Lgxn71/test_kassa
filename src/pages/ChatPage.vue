@@ -71,7 +71,7 @@ const typeText = async (fullText: string) => {
 /**
  * Handles sending of a user message.
  */
-const onSendMessageFromActionButton = () => {
+const onSendMessage = () => {
   if (isBotTyping.value || !newMessage.value.trim()) return;
 
   pushMessage({
@@ -154,7 +154,7 @@ const stopRecording = () => {
   }
 
   mediaRecorder.onstop = () => {
-    const audioBlob = new Blob(recordedChunks, { type: "audio/webm" });
+    const audioBlob = new Blob(recordedChunks, { type: "audio/mp3" });
     const audioUrl = URL.createObjectURL(audioBlob);
     pushMessage({
       sender: "user",
@@ -261,7 +261,7 @@ const cancelRecording = () => {
             placeholder="Напишите сообщение"
             type="text"
             v-model="newMessage"
-            @keydown.enter="onSendMessageFromActionButton"
+            @keydown.enter="onSendMessage"
             :class="
               cn(inputVariants({ variant: 'chat', size: 'chat' }), 'w-full')
             "
@@ -301,11 +301,7 @@ const cancelRecording = () => {
       <Button
         variant="chat-submit"
         size="chat-submit"
-        @click="
-          isVoiceMessageRecording
-            ? stopRecording()
-            : onSendMessageFromActionButton()
-        "
+        @click="isVoiceMessageRecording ? stopRecording() : onSendMessage()"
         :disabled="isBotTyping"
       >
         <Arrow class="min-h-[22px] min-w-[22px] rotate-90" />

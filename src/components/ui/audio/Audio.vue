@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from "vue";
-
 import Button from "../buttons/button-base/Button.vue";
-
 import { formatTime, roundedRect } from "@/lib/utils";
-
 import PlayTriangle from "../icons/PlayTriangle.vue";
 import { Pause } from "lucide-vue-next";
 
@@ -24,14 +21,18 @@ const togglePlay = () => {
     if (isPlaying.value) {
       audio.value.pause();
     } else {
-      // When starting playback from the beginning, // reset the waveform if we're at the end.
-
-      if (currentTime.value >= duration.value) {
-        currentTime.value = 0;
-        smoothedProgress.value = 0;
-        audio.value.currentTime = 0;
-      }
-      audio.value.play();
+      // Adding a slight delay to avoid autoplay issues
+      setTimeout(() => {
+        // When starting playback from the beginning, reset the waveform if we're at the end.
+        if (currentTime.value >= duration.value) {
+          currentTime.value = 0;
+          smoothedProgress.value = 0;
+          audio.value.currentTime = 0;
+        }
+        audio.value.play().catch((e) => {
+          console.error("Autoplay prevented or operation not supported: ", e);
+        });
+      }, 100); // Small delay
     }
   }
 };
@@ -54,27 +55,34 @@ async function getWaveformData(
   blobUrl: string,
   samples = 60,
 ): Promise<number[]> {
-  const response = await fetch(blobUrl);
-  const arrayBuffer = await response.arrayBuffer();
-  const audioContext = new AudioContext();
-  const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
-  const rawData = audioBuffer.getChannelData(0);
-  const blockSize = Math.floor(rawData.length / samples);
-  const data: number[] = [];
+  try {
+    const response = await fetch(blobUrl);
+    const arrayBuffer = await response.arrayBuffer();
+    const audioContext = new (window.AudioContext ||
+      (window as any).webkitAudioContext)(); // Using type assertion for Safari compatibility
+    const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
+    const rawData = audioBuffer.getChannelData(0);
+    const blockSize = Math.floor(rawData.length / samples);
+    const data: number[] = [];
 
-  for (let i = 0; i < samples; i++) {
-    let sum = 0;
-    for (let j = 0; j < blockSize; j++) {
-      sum += Math.abs(rawData[i * blockSize + j]);
+    for (let i = 0; i < samples; i++) {
+      let sum = 0;
+      for (let j = 0; j < blockSize; j++) {
+        sum += Math.abs(rawData[i * blockSize + j]);
+      }
+      data.push(sum / blockSize);
     }
-    data.push(sum / blockSize);
+    return data;
+  } catch (error) {
+    console.error("Error fetching or decoding waveform data:", error);
+    return [];
   }
-  return data;
 }
 
 /**
  * Draws the waveform data on the canvas, smoothly updating the played portion.
  */
+
 function animateCanvas() {
   const canvas = canvasRef.value;
   if (!canvas) return;
@@ -100,8 +108,8 @@ function animateCanvas() {
 
     waveformData.value.forEach((value, index) => {
       const barCenterRatio = (index + 0.5) / waveformData.value.length;
-      const pixelsForBarsWithNoSound = 5;
-      const barHeight = value * height * 2.5 + pixelsForBarsWithNoSound;
+      const pixelsForBarsWithNoSound = 7;
+      const barHeight = value * height * 10 + pixelsForBarsWithNoSound;
       const x = index * (barWidth + gap);
       const y = (height - barHeight) / 2;
       const barWidthAdjusted = barWidth;
@@ -115,7 +123,13 @@ function animateCanvas() {
       ctx.fill();
     });
   }
-  requestAnimationFrame(animateCanvas);
+
+  // Throttle requestAnimationFrame for smoother updates
+  if (navigator.userAgent.includes("Safari")) {
+    setTimeout(() => requestAnimationFrame(animateCanvas), 20); // Adjust for Safari performance
+  } else {
+    requestAnimationFrame(animateCanvas);
+  }
 }
 
 // ----------------------
@@ -191,7 +205,7 @@ onUnmounted(() => {
           <Pause class="fill-white text-white" />
         </span>
       </Button>
-      <canvas ref="canvasRef" class="max-h-[64px] w-full" />
+      <canvas ref="canvasRef" class="max-h-[64px] max-w-[150px]" />
       <div class="max-w-[37px] text-sm font-medium text-[#0000008A]">
         {{ isPlaying ? formattedTime : formattedDuration }}
       </div>
