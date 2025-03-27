@@ -21,7 +21,7 @@ const togglePlay = () => {
     if (isPlaying.value) {
       audio.value.pause();
     } else {
-      // Adding a slight delay to avoid autoplay issues
+      // Adding a slight delay to avoid autoplay issues in Safari
       setTimeout(() => {
         // When starting playback from the beginning, reset the waveform if we're at the end.
         if (currentTime.value >= duration.value) {
@@ -141,6 +141,7 @@ onMounted(() => {
   });
 
   audio.value.addEventListener("loadedmetadata", () => {
+    // to fix is Nan Error (chromium bug i guess)
     if (
       audio.value.duration === Infinity ||
       isNaN(Number(audio.value.duration))

@@ -18,11 +18,3 @@ export const passwordSchema = z
     message: "Пароль должен содержать как минимум 5 буквы",
   })
   .trim();
-
-export const nameSchema = z
-  .string({
-    required_error: "Имя обязательно",
-    invalid_type_error: "Имя должно быть строкой",
-  })
-  .min(2, { message: "Имя должно содержать как минимум 2 буквы" })
-  .trim();
